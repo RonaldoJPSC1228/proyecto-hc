@@ -17,37 +17,43 @@ class DiagnosticoController extends Controller
         $this->sugerirDiagnostico = $sugerirDiagnostico;
     }
 
+    // public function sugerir(DiagnosticoSugerirRequest $request)
+    // {
+    //     $response = $this->sugerirDiagnostico->__invoke($request);
+    //     return response()->json($response);
+    // }
+
     public function sugerir(DiagnosticoSugerirRequest $request)
     {
-        $response = $this->sugerirDiagnostico->__invoke($request);
-        return response()->json($response);
+        $url = 'http://127.0.0.1:8001/diagnostico';
+
+        $payload = [
+            'motivo' => $request->input('motivo_consulta'),
+            'sintomas' => $request->input('sintomas'),
+        ];
+
+        try {
+            $response = Http::post($url, $payload);
+
+            if ($response->successful()) {
+                $data = $response->json();
+
+                return response()->json([
+                    'diagnostico' => $data['diagnostico'] ?? null,
+                    'justificacion' => isset($data['razonamiento']) ? [$data['razonamiento']] : [],
+                ]);
+            } else {
+                return response()->json([
+                    'error' => 'Error en respuesta de FastAPI',
+                    'status' => $response->status(),
+                    'body' => $response->body(),
+                ], 500);
+            }
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'Excepción al llamar FastAPI',
+                'mensaje' => $e->getMessage(),
+            ], 500);
+        }
     }
-
-    // public function sugerir(Request $request)
-    // {
-    //     // URL del servicio FastAPI en el puerto 8001
-    //     $url = 'http://127.0.0.1:8001/diagnostico';
-
-    //     // Datos a enviar al servicio Python
-    //     $payload = [
-    //         'motivo' => $request->input('motivo_consulta'),
-    //         'sintomas' => $request->input('sintomas'),
-    //     ];
-
-    //     // Llamada POST al servicio FastAPI
-    //     $response = Http::post($url, $payload);
-
-    //     if ($response->successful()) {
-    //         $data = $response->json();
-
-    //         // Devuelve la respuesta que espera el JavaScript en la vista
-    //         return response()->json([
-    //             'diagnostico' => $data['diagnostico'],
-    //             'justificacion' => [$data['razonamiento']], // como lista para mostrar
-    //         ]);
-    //     }
-
-    //     // Error en la petición al servicio Python
-    //     return response()->json(['error' => 'Error generando diagnóstico'], 500);
-    // }
 }
