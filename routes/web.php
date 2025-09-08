@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\TranscripcionController;
+use App\Http\Modules\Diagnostico\Controllers\DiagnosticoController;
 use App\Http\Modules\HistoriaClinica\Controllers\HistoriaClinicaController;
 use App\Http\Modules\Pacientes\Controllers\PacienteController;
 use Illuminate\Support\Facades\Route;
@@ -30,6 +32,13 @@ Route::prefix('historias')->group(function () {
     Route::get('/create', [HistoriaClinicaController::class, 'create'])->name('historias.create');
     Route::post('/store', [HistoriaClinicaController::class, 'store'])->name('historias.store');
 });
+
+Route::post('/diagnostico/sugerir', [DiagnosticoController::class, 'sugerir'])
+    ->name('diagnostico.sugerir');
+
+
+// Route::post('/api/transcribir', [TranscripcionController::class, 'transcribir'])->name('api.transcribir');
+
 
 // Route::get('/show', [PacienteController::class, 'show'])->name('pacientes.show');
 // Route::get('/edit', [PacienteController::class, 'edit'])->name('pacientes.edit');

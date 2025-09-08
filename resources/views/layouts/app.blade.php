@@ -10,15 +10,21 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
         <div class="container">
             <a class="navbar-brand" href="{{ route('pacientes.index') }}">Gestión de Pacientes</a>
+            <a class="navbar-brand" href="{{ route('historias.index') }}">Gestión de Historias</a>
         </div>
+        {{-- <div class="container">
+        </div> --}}
     </nav>
 
     <main class="container">
         @yield('content')
     </main>
+    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <footer class="bg-light text-center py-3 mt-4">
         <small>&copy; {{ date('Y') }} Mi Proyecto</small>
     </footer>
+    @stack('js')
 </body>
 </html>
