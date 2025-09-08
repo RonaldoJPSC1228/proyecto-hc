@@ -69,13 +69,14 @@
         </div>
 
         {{-- Diagnóstico presuntivo --}}
-        <div class="mb-3">
+        {{-- <div class="mb-3">
             <label for="diagnostico_presuntivo" class="form-label">Diagnóstico Presuntivo</label>
             <div class="input-group">
                 <textarea name="diagnostico_presuntivo" id="diagnostico_presuntivo" class="form-control" rows="3">{{ old('diagnostico_presuntivo') }}</textarea>
                 <button type="button" class="btn btn-outline-primary btn-voz" data-target="diagnostico_presuntivo">🎤</button>
             </div>
-        </div>
+        </div> --}}
+        
 
         {{-- Evidencias --}}
         <div class="mb-3">
