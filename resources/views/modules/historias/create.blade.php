@@ -59,13 +59,20 @@
             </div>
         </div>
 
-        {{-- Síntomas --}}
+        {{-- Síntomas separados --}}
         <div class="mb-3">
-            <label for="sintomas" class="form-label">Síntomas</label>
-            <div class="input-group">
-                <textarea name="sintomas" id="sintomas" class="form-control" rows="3" required>{{ old('sintomas') }}</textarea>
-                <button type="button" class="btn btn-outline-primary btn-voz" data-target="sintomas">🎤</button>
-            </div>
+            <label for="sintomas_1" class="form-label">Síntoma 1</label>
+            <textarea name="sintomas_1" id="sintomas_1" class="form-control" rows="2" required>{{ old('sintomas_1') }}</textarea>
+        </div>
+
+        <div class="mb-3">
+            <label for="sintomas_2" class="form-label">Síntoma 2 (opcional)</label>
+            <textarea name="sintomas_2" id="sintomas_2" class="form-control" rows="2">{{ old('sintomas_2') }}</textarea>
+        </div>
+
+        <div class="mb-3">
+            <label for="sintomas_3" class="form-label">Síntoma 3 (opcional)</label>
+            <textarea name="sintomas_3" id="sintomas_3" class="form-control" rows="2">{{ old('sintomas_3') }}</textarea>
         </div>
 
         {{-- Diagnóstico presuntivo --}}
@@ -97,7 +104,9 @@
             <p id="diagnostico-texto"></p>
             <h6>Justificación:</h6>
             <ul id="justificacion-lista"></ul>
+            <!-- Aquí se agregará la prescripción dinámica desde JS -->
         </div>
+
 
         <div class="d-flex justify-content-between">
             <a href="{{ route('historias.index') }}" class="btn btn-secondary">Cancelar</a>
@@ -151,19 +160,26 @@ $(document).ready(function () {
             method: "POST",
             data: {
                 _token: "{{ csrf_token() }}",
-                motivo_consulta: $('#motivo_consulta').val(),
-                antecedentes: $('#antecedentes').val(),
-                sintomas: $('#sintomas').val(),
+                motivo: $('#motivo_consulta').val(),
+                sintomas_1: $('#sintomas_1').val(),
+                sintomas_2: $('#sintomas_2').val(),
+                sintomas_3: $('#sintomas_3').val(),
             },
             success: function (response) {
                 $('#resultado-diagnostico').removeClass('d-none');
                 $('#diagnostico-texto').text(response.diagnostico);
 
-                let lista = $('#justificacion-lista');
-                lista.empty();
-                response.justificacion.forEach(j => {
-                    lista.append(`<li>${j}</li>`);
-                });
+                // Mostrar justificación
+                $('#justificacion-lista').empty().append(`<li>${response.justificacion}</li>`);
+
+                // Crear o mostrar prescripción
+                if ($('#prescripcion-texto').length === 0) {
+                    $('#resultado-diagnostico').append(`
+                        <h6>Prescripción:</h6>
+                        <p id="prescripcion-texto"></p>
+                    `);
+                }
+                $('#prescripcion-texto').text(response.prescripcion);
             },
             error: function () {
                 alert("Error generando diagnóstico.");
