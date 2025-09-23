@@ -131,6 +131,25 @@ $(document).ready(function () {
             if (targetInput) {
                 targetInput.val(targetInput.val() + " " + transcript);
             }
+
+            fetch("http://127.0.0.1:8001/extraer_campos", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ texto: transcript })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.motivo_consulta) {
+                    $('#motivo_consulta').val(data.motivo_consulta);
+                }
+                if (data.sintomas) {
+                    $('#sintomas').val(data.sintomas);
+                }
+                if (data.antecedentes) {
+                    $('#antecedentes').val(data.antecedentes);
+                }
+            })
+            .catch(err => console.error("Error autocompletando campos:", err));
         };
 
         recognition.onend = function () {
