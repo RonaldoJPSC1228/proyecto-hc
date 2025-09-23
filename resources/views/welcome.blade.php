@@ -19,7 +19,7 @@
     <div class="text-center px-6 relative z-10">
         <!-- Título -->
         <h1 class="text-5xl md:text-6xl font-extrabold mb-6 drop-shadow-lg tracking-wide">
-            🚀 Bienvenidos a <span class="text-sky-300">Grupo Black</span>
+            🚀 Bienvenidos al <span class="text-sky-300">Grupo Black</span>
         </h1>
 
         <!-- Subtítulo -->

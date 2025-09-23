@@ -17,7 +17,9 @@ return new class extends Migration
             $table->date('fecha')->nullable();
             $table->text('motivo_consulta')->nullable();
             $table->text('antecedentes')->nullable();
-            $table->text('sintomas')->nullable();
+            $table->text('sintoma_1')->nullable();
+            $table->text('sintoma_2')->nullable();
+            $table->text('sintoma_3')->nullable();
             $table->text('diagnostico_presuntivo')->nullable();
             $table->json('evidencias')->nullable(); // Para logs/explicabilidad IA
             $table->timestamps();
