@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mi Proyecto - @yield('title', 'Pacientes')</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
@@ -19,8 +20,11 @@
     <main class="container">
         @yield('content')
     </main>
-    
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script src="/js/index.bundled.min.js"></script>
+
 
     <footer class="bg-light text-center py-3 mt-4">
         <small>&copy; {{ date('Y') }} Mi Proyecto</small>

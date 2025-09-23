@@ -4,6 +4,7 @@ use App\Http\Controllers\TranscripcionController;
 use App\Http\Modules\Diagnostico\Controllers\DiagnosticoController;
 use App\Http\Modules\HistoriaClinica\Controllers\HistoriaClinicaController;
 use App\Http\Modules\Pacientes\Controllers\PacienteController;
+use App\Http\Modules\Transcription\Controllers\TranscriptionController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,6 +22,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/grabar', function () {
+    return view('modules.transcribe.index');  // Cambia a la ruta correcta de tu vista, por ejemplo:
+});
+
 Route::prefix('pacientes')->group(function () {
     Route::get('/', [PacienteController::class, 'index'])->name('pacientes.index');
     Route::get('/create', [PacienteController::class, 'create'])->name('pacientes.create');
@@ -36,6 +41,13 @@ Route::prefix('historias')->group(function () {
 Route::post('/diagnostico/sugerir', [DiagnosticoController::class, 'sugerir'])
     ->name('diagnostico.sugerir');
 
+Route::post('/transcribe', [TranscriptionController::class, 'transcribe'])->name('whisper.transcribe');
+
+Route::get('/transcribe-status/{id}', [TranscriptionController::class, 'status']);
+
+
+
+Route::post('/save-transcription', [TranscriptionController::class, 'saveTranscription'])->name('save-transcription');
 
 // Route::post('/api/transcribir', [TranscripcionController::class, 'transcribir'])->name('api.transcribir');
 
