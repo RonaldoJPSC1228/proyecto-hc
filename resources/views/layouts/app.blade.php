@@ -1,30 +1,55 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Mi Proyecto - @yield('title', 'Pacientes')</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Tailwind CSS desde CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Heroicons (para íconos SVG) -->
+    <script src="https://unpkg.com/feather-icons"></script>
 </head>
-<body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
-        <div class="container">
-            <a class="navbar-brand" href="{{ route('pacientes.index') }}">Gestión de Pacientes</a>
-            <a class="navbar-brand" href="{{ route('historias.index') }}">Gestión de Historias</a>
+<body class="bg-gray-50 text-gray-900 flex flex-col min-h-screen">
+    <!-- Navbar -->
+    <nav class="bg-blue-800 shadow">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <!-- Branding -->
+                <a href="{{ route('welcome') }}" class="flex items-center text-white font-bold text-lg gap-2">
+                    <i data-feather="users"></i> Hackaton
+                </a>
+
+                <!-- Links -->
+                <div class="flex space-x-6">
+                    <a href="{{ route('pacientes.index') }}" 
+                       class="text-white hover:text-blue-200 {{ request()->routeIs('pacientes.*') ? 'underline font-semibold' : '' }}">
+                        Pacientes
+                    </a>
+                    <a href="{{ route('historias.index') }}" 
+                       class="text-white hover:text-blue-200 {{ request()->routeIs('historias.*') ? 'underline font-semibold' : '' }}">
+                        Historias Clínicas
+                    </a>
+                    {{-- Agrega más enlaces si necesitas --}}
+                </div>
+            </div>
         </div>
-        {{-- <div class="container">
-        </div> --}}
     </nav>
 
-    <main class="container">
+    <!-- Main -->
+    <main class="flex-1 max-w-7xl mx-auto w-full px-4 py-6">
         @yield('content')
     </main>
-    
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    <footer class="bg-light text-center py-3 mt-4">
-        <small>&copy; {{ date('Y') }} Mi Proyecto</small>
+    <!-- Footer -->
+    <footer class="bg-gray-100 text-center py-4 mt-8 shadow-inner">
+        <small class="text-gray-500">&copy; {{ date('Y') }} Mi Proyecto</small>
     </footer>
+
+    <!-- Feather icons -->
+    <script>feather.replace()</script>
+
     @stack('js')
 </body>
 </html>

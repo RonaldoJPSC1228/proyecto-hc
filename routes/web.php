@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('welcome');
 
 Route::prefix('pacientes')->group(function () {
     Route::get('/', [PacienteController::class, 'index'])->name('pacientes.index');

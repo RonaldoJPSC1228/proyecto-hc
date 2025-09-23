@@ -3,114 +3,110 @@
 @section('title', 'Registrar Historia Clínica')
 
 @section('content')
-<div class="container">
-    <h1 class="mb-4">Registrar Historia Clínica</h1>
+<div class="container mt-5 mb-5 p-4 bg-white shadow rounded">
+    <h1 class="mb-4 fw-bold text-center">Registrar Historia Clínica</h1>
 
-    {{-- Errores de validación --}}
     @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul class="mb-0">
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
+    <div class="alert alert-danger" role="alert">
+        <ul class="mb-0">
+            @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
     @endif
 
-    {{-- Formulario --}}
-    <form action="{{ route('historias.store') }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('historias.store') }}" method="POST" enctype="multipart/form-data" novalidate>
         @csrf
 
         {{-- Paciente --}}
-        <div class="mb-3">
-            <label for="paciente_id" class="form-label">Paciente</label>
-            <select name="paciente_id" id="paciente_id" class="form-select" required>
-                <option value="">Seleccione un paciente</option>
+        <div class="mb-4">
+            <label for="paciente_id" class="form-label fw-semibold">Paciente <span class="text-danger">*</span></label>
+            <select name="paciente_id" id="paciente_id" class="form-select" required aria-describedby="pacienteHelp">
+                <option value="" disabled selected>Seleccione un paciente</option>
                 @foreach($data as $paciente)
-                    <option value="{{ $paciente->id }}" {{ old('paciente_id') == $paciente->id ? 'selected' : '' }}>
-                        {{ $paciente->nombre }} {{ $paciente->apellido }} - {{ $paciente->documento }}
-                    </option>
+                <option value="{{ $paciente->id }}" {{ old('paciente_id') == $paciente->id ? 'selected' : '' }}>
+                    {{ $paciente->nombre }} {{ $paciente->apellido }} - {{ $paciente->documento }}
+                </option>
                 @endforeach
             </select>
+            <div id="pacienteHelp" class="form-text">Selecciona el paciente correspondiente.</div>
         </div>
 
         {{-- Fecha --}}
-        <div class="mb-3">
-            <label for="fecha" class="form-label">Fecha</label>
-            <input type="date" name="fecha" class="form-control"
-                   value="{{ old('fecha', date('Y-m-d')) }}" required>
+        <div class="mb-4">
+            <label for="fecha" class="form-label fw-semibold">Fecha <span class="text-danger">*</span></label>
+            <input type="date" name="fecha" id="fecha" class="form-control" value="{{ old('fecha', date('Y-m-d')) }}" required max="{{ date('Y-m-d') }}">
         </div>
 
-        {{-- Motivo de consulta --}}
-        <div class="mb-3">
-            <label for="motivo_consulta" class="form-label">Motivo de Consulta</label>
+        {{-- Motivo de Consulta con botón dictado --}}
+        <div class="mb-4">
+            <label for="motivo_consulta" class="form-label fw-semibold">Motivo de Consulta <span class="text-danger">*</span></label>
             <div class="input-group">
                 <textarea name="motivo_consulta" id="motivo_consulta" class="form-control" rows="3" required>{{ old('motivo_consulta') }}</textarea>
-                <button type="button" class="btn btn-outline-primary btn-voz" data-target="motivo_consulta">🎤</button>
+                <button type="button" class="btn btn-outline-primary btn-voice" data-target="motivo_consulta" aria-label="Dictado para Motivo de Consulta">🎤</button>
             </div>
         </div>
 
-        {{-- Antecedentes --}}
-        <div class="mb-3">
-            <label for="antecedentes" class="form-label">Antecedentes</label>
+        {{-- Antecedentes con botón dictado --}}
+        <div class="mb-4">
+            <label for="antecedentes" class="form-label fw-semibold">Antecedentes</label>
             <div class="input-group">
                 <textarea name="antecedentes" id="antecedentes" class="form-control" rows="3">{{ old('antecedentes') }}</textarea>
-                <button type="button" class="btn btn-outline-primary btn-voz" data-target="antecedentes">🎤</button>
+                <button type="button" class="btn btn-outline-primary btn-voice" data-target="antecedentes" aria-label="Dictado para Antecedentes">🎤</button>
             </div>
         </div>
 
         {{-- Síntomas separados --}}
-        <div class="mb-3">
-            <label for="sintomas_1" class="form-label">Síntoma 1</label>
+        <div class="mb-4">
+            <label for="sintomas_1" class="form-label fw-semibold">Síntoma 1 <span class="text-danger">*</span></label>
             <textarea name="sintomas_1" id="sintomas_1" class="form-control" rows="2" required>{{ old('sintomas_1') }}</textarea>
         </div>
 
-        <div class="mb-3">
-            <label for="sintomas_2" class="form-label">Síntoma 2 (opcional)</label>
+        <div class="mb-4">
+            <label for="sintomas_2" class="form-label fw-semibold">Síntoma 2 (opcional)</label>
             <textarea name="sintomas_2" id="sintomas_2" class="form-control" rows="2">{{ old('sintomas_2') }}</textarea>
         </div>
 
-        <div class="mb-3">
-            <label for="sintomas_3" class="form-label">Síntoma 3 (opcional)</label>
+        <div class="mb-4">
+            <label for="sintomas_3" class="form-label fw-semibold">Síntoma 3 (opcional)</label>
             <textarea name="sintomas_3" id="sintomas_3" class="form-control" rows="2">{{ old('sintomas_3') }}</textarea>
         </div>
 
-        {{-- Diagnóstico presuntivo --}}
-        <div class="mb-3">
-            <label for="diagnostico_presuntivo" class="form-label">Diagnóstico Presuntivo</label>
+        {{-- Diagnóstico Presuntivo con botón dictado --}}
+        <div class="mb-4">
+            <label for="diagnostico_presuntivo" class="form-label fw-semibold">Diagnóstico Presuntivo</label>
             <div class="input-group">
                 <textarea name="diagnostico_presuntivo" id="diagnostico_presuntivo" class="form-control" rows="3">{{ old('diagnostico_presuntivo') }}</textarea>
-                <button type="button" class="btn btn-outline-primary btn-voz" data-target="diagnostico_presuntivo">🎤</button>
+                <button type="button" class="btn btn-outline-primary btn-voice" data-target="diagnostico_presuntivo" aria-label="Dictado para Diagnóstico Presuntivo">🎤</button>
             </div>
         </div>
-        
 
-        {{-- Evidencias --}}
-        <div class="mb-3">
-            <label for="evidencias" class="form-label">Evidencias (archivos)</label>
-            <input type="file" name="evidencias[]" class="form-control" multiple>
-            <small class="text-muted">Puedes subir imágenes, PDFs, etc.</small>
+        {{-- Evidencias (archivos) --}}
+        <div class="mb-4">
+            <label for="evidencias" class="form-label fw-semibold">Evidencias (archivos)</label>
+            <input type="file" name="evidencias[]" id="evidencias" class="form-control" multiple aria-describedby="evidenciasHelp" accept="image/*,application/pdf">
+            <div id="evidenciasHelp" class="form-text">Puedes subir imágenes, PDFs, etc.</div>
         </div>
 
-        {{-- Diagnóstico automático --}}
-        <div class="mb-3">
-            <button type="button" id="btn-diagnostico" class="btn btn-info">
+        {{-- Botón diagnóstico automático --}}
+        <div class="mb-4 d-flex justify-content-start">
+            <button type="button" id="btn-diagnostico" class="btn btn-info fw-semibold px-4">
                 Generar diagnóstico presuntivo
             </button>
         </div>
 
-        <div id="resultado-diagnostico" class="alert alert-secondary d-none">
-            <h5>Diagnóstico sugerido:</h5>
-            <p id="diagnostico-texto"></p>
+        {{-- Resultado diagnóstico --}}
+        <div id="resultado-diagnostico" class="alert alert-secondary d-none rounded-3">
+            <h5 class="mb-3">Diagnóstico sugerido:</h5>
+            <p id="diagnostico-texto" class="mb-3"></p>
             <h6>Justificación:</h6>
-            <ul id="justificacion-lista"></ul>
-            <!-- Aquí se agregará la prescripción dinámica desde JS -->
+            <ul id="justificacion-lista" class="mb-3"></ul>
         </div>
 
-
-        <div class="d-flex justify-content-between">
-            <a href="{{ route('historias.index') }}" class="btn btn-secondary">Cancelar</a>
-            <button type="submit" class="btn btn-success">Guardar Historia</button>
+        <div class="d-flex justify-content-between mt-4">
+            <a href="{{ route('historias.index') }}" class="btn btn-outline-secondary px-4">Cancelar</a>
+            <button type="submit" class="btn btn-success fw-semibold px-4">Guardar Historia</button>
         </div>
     </form>
 </div>
@@ -118,32 +114,30 @@
 
 @push('js')
 <script>
-$(document).ready(function () {
+$(function () {
     let recognition;
     if ('webkitSpeechRecognition' in window) {
         recognition = new webkitSpeechRecognition();
         recognition.continuous = false;
         recognition.lang = "es-ES";
-
         let targetInput = null;
 
-        $('.btn-voz').on('click', function () {
+        $('.btn-voice').on('click', function () {
             targetInput = $('#' + $(this).data('target'));
             recognition.start();
-
-            // Botón azul mientras graba
             $(this).addClass('btn-primary').removeClass('btn-outline-primary');
         });
 
         recognition.onresult = function (event) {
-            let transcript = event.results[0][0].transcript;
+            const transcript = event.results[0][0].transcript;
             if (targetInput) {
-                targetInput.val(targetInput.val() + " " + transcript);
+                const currentVal = targetInput.val();
+                targetInput.val(currentVal ? currentVal.trim() + " " + transcript : transcript);
             }
         };
 
         recognition.onend = function () {
-            $('.btn-voz').removeClass('btn-primary').addClass('btn-outline-primary');
+            $('.btn-voice').removeClass('btn-primary').addClass('btn-outline-primary');
         };
 
         recognition.onerror = function (event) {
@@ -153,7 +147,6 @@ $(document).ready(function () {
         alert("Tu navegador no soporta dictado por voz.");
     }
 
-    // 🔹 Botón de diagnóstico automático
     $('#btn-diagnostico').on('click', function () {
         $.ajax({
             url: "{{ route('diagnostico.sugerir') }}",
@@ -169,17 +162,14 @@ $(document).ready(function () {
                 $('#resultado-diagnostico').removeClass('d-none');
                 $('#diagnostico-texto').text(response.diagnostico);
 
-                // Mostrar justificación
-                $('#justificacion-lista').empty().append(`<li>${response.justificacion}</li>`);
-
-                // Crear o mostrar prescripción
-                if ($('#prescripcion-texto').length === 0) {
-                    $('#resultado-diagnostico').append(`
-                        <h6>Prescripción:</h6>
-                        <p id="prescripcion-texto"></p>
-                    `);
+                $('#justificacion-lista').empty();
+                if (Array.isArray(response.justificacion)) {
+                    response.justificacion.forEach(j => {
+                        $('#justificacion-lista').append(`<li>${j}</li>`);
+                    });
+                } else {
+                    $('#justificacion-lista').append(`<li>${response.justificacion}</li>`);
                 }
-                $('#prescripcion-texto').text(response.prescripcion);
             },
             error: function () {
                 alert("Error generando diagnóstico.");

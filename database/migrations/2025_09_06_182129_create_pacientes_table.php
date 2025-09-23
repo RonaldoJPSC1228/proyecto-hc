@@ -14,12 +14,23 @@ return new class extends Migration
         Schema::create('pacientes', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
-            $table->string('apellido');
-            $table->date('fecha_nacimiento')->nullable();
-            $table->string('genero')->nullable();
-            $table->string('documento')->unique();
-            $table->string('telefono')->nullable();
-            $table->string('email')->nullable();
+            $table->string('apellido', 50);
+            $table->string('tipo_identificacion')->unique();
+            $table->integer('numero_identificacion')->unique();
+            $table->date('fecha_nacimiento');
+            $table->string('genero', 20);
+            $table->string('direccion');
+            $table->string('ciudad');
+            $table->string('telefono', 250)->nullable();
+            $table->string('email');
+            $table->string('tipo_afiliacion');
+            $table->integer('num_historial_medico');
+            $table->string('pais');
+            $table->string('departamento');
+            $table->string('eps');
+            $table->string('ocupacion');
+            $table->string('discapacidad')->nullable();
+            $table->string('subsidiaria');
             $table->timestamps();
         });
     }
