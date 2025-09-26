@@ -80,17 +80,17 @@
                     <label for="sintomas_1" class="block text-sm font-semibold text-gray-700 mb-2">
                         Síntoma 1 <span class="text-red-600">*</span>
                     </label>
-                    <textarea id="sintomas_1" name="sintomas_1" rows="2" required
+                    <textarea id="sintomas_1" name="sintoma_1" rows="2" required
                         class="w-full rounded-lg border border-gray-300 shadow-sm focus:ring-2 focus:ring-blue-600 text-gray-900 resize-y">{{ old('sintomas_1') }}</textarea>
                 </div>
                 <div>
                     <label for="sintomas_2" class="block text-sm font-semibold text-gray-700 mb-2">Síntoma 2 (Opcional)</label>
-                    <textarea id="sintomas_2" name="sintomas_2" rows="2"
+                    <textarea id="sintomas_2" name="sintoma_2" rows="2"
                         class="w-full rounded-lg border border-gray-300 shadow-sm focus:ring-2 focus:ring-blue-600 text-gray-900 resize-y">{{ old('sintomas_2') }}</textarea>
                 </div>
                 <div>
                     <label for="sintomas_3" class="block text-sm font-semibold text-gray-700 mb-2">Síntoma 3 (Opcional)</label>
-                    <textarea id="sintomas_3" name="sintomas_3" rows="2"
+                    <textarea id="sintomas_3" name="sintoma_3" rows="2"
                         class="w-full rounded-lg border border-gray-300 shadow-sm focus:ring-2 focus:ring-blue-600 text-gray-900 resize-y">{{ old('sintomas_3') }}</textarea>
                 </div>
             </div>
@@ -163,13 +163,15 @@ document.addEventListener('DOMContentLoaded', () => {
             const targetId = button.getAttribute('data-target');
             const campo = document.getElementById(targetId);
 
-            if (!('webkitSpeechRecognition' in window)) {
-                alert('Tu navegador no soporta dictado por voz.');
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (!SpeechRecognition) {
+                status.textContent = 'Dictado no soportado en este navegador';
+                btn.disabled = true;
                 return;
             }
 
             if (!recognition) {
-                recognition = new webkitSpeechRecognition();
+                recognition = new SpeechRecognition();
                 recognition.lang = 'es-ES';
                 recognition.interimResults = true;
                 recognition.continuous = false;
