@@ -14,9 +14,20 @@ class Paciente extends Model
         'apellido',
         'fecha_nacimiento',
         'genero',
-        'documento',
-        'telefono',
         'email',
+        'telefono',
+        'tipo_identificacion',
+        'numero_identificacion',
+        'direccion',
+        'pais',
+        'departamento',
+        'ciudad',
+        'tipo_afiliacion',
+        'num_historial_medico',
+        'eps',
+        'ocupacion',
+        'discapacidad',
+        'subsidiaria'
     ];
 
     public function historiasClinicas()

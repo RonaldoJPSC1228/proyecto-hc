@@ -16,7 +16,7 @@ class ListHistoriasUseCase
     public function __invoke(HistoriasIndexRequest $request)
     {
         // Lógica para el caso de uso ListPacientes
-        $historia = $this->model::all();
+        $historia = $this->model::orderBy('id', 'desc')->paginate(10);
         return $historia;
     }
 

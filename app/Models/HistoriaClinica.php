@@ -14,7 +14,9 @@ class HistoriaClinica extends Model
         'fecha',
         'motivo_consulta',
         'antecedentes',
-        'sintomas',
+        'sintoma_1',
+        'sintoma_2',
+        'sintoma_3',
         'diagnostico_presuntivo',
         'evidencias',
     ];

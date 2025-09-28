@@ -15,7 +15,7 @@ class ListPacientesUseCase
     public function __invoke(PacientesIndexRequest $request)
     {
         // Lógica para el caso de uso ListPacientes
-        $pacientes = $this->model::all();
+        $pacientes = $this->model::orderBy('id', 'desc')->paginate(10);
         return $pacientes;
     }
 

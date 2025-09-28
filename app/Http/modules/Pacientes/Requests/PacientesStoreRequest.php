@@ -18,13 +18,24 @@ class PacientesStoreRequest extends FormRequest
         $tabla =  (new Paciente)->getTable();
         return [
             // Definir reglas de validación para el método Store
-            'nombre'          => 'required',
-            'apellido'        => 'required',
+            'nombre' => 'required',
+            'apellido' => 'required',
+            'tipo_identificacion' => 'required',
+            'numero_identificacion' => 'required',
             'fecha_nacimiento' => 'required',
-            'genero'          => 'required',
-            'documento'       => "required",
-            'telefono'        => 'nullable',
-            'email'           => "required",
+            'genero' => 'required',
+            'direccion' => 'required',
+            'ciudad' => 'required',
+            'telefono' => 'nullable',
+            'email' => 'required',
+            'tipo_afiliacion' => 'required',
+            'num_historial_medico' => 'required',
+            'pais' => 'required',
+            'departamento' => 'required',
+            'eps' => 'required',
+            'ocupacion' => 'required',
+            'discapacidad' => 'nullable',
+            'subsidiaria' => 'nullable'
         ];
     }
 }
