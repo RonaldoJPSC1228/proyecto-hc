@@ -56,5 +56,19 @@
 
 ### Inicializa la API FastAPI
 
-Ingresa al directorio del proyecto `api_diagnostico`:
+Ingresa al directorio del proyecto `api_diagnostico`:(https://github.com/RonaldoJPSC1228/api_diagnostico_py)
+
+
+---
+
+### Flujo general
+
+- Laravel disponible en: `http://127.0.0.1:8000`
+- FastAPI disponible en: `http://127.0.0.1:8001`
+- El frontend Laravel envía los datos a `/diagnostico` y muestra el resultado en el formulario.
+
+---
+
+**¡Listo para desarrollar y probar la app localmente!**
+
 
