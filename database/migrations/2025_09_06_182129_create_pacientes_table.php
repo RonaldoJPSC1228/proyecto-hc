@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('nombre');
             $table->string('apellido', 50);
-            $table->string('tipo_identificacion')->unique();
-            $table->integer('numero_identificacion')->unique();
+            $table->string('tipo_identificacion');
+            $table->integer('numero_identificacion');
             $table->date('fecha_nacimiento');
             $table->string('genero', 20);
             $table->string('direccion');

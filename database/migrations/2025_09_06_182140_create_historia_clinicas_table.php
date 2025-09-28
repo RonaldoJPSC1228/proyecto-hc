@@ -21,7 +21,7 @@ return new class extends Migration
             $table->text('sintoma_2')->nullable();
             $table->text('sintoma_3')->nullable();
             $table->text('diagnostico_presuntivo')->nullable();
-            $table->json('evidencias')->nullable(); // Para logs/explicabilidad IA
+            $table->string('evidencias', 250)->nullable();
             $table->timestamps();
         });
     }

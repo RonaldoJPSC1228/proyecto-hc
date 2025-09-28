@@ -17,11 +17,7 @@ class CreateHistoriasUseCase
 
         // Procesar archivos de evidencias si existen
         if ($request->hasFile('evidencias')) {
-            $paths = [];
-            foreach ($request->file('evidencias') as $file) {
-                $paths[] = $file->store('evidencias', 'public');
-            }
-            $data['evidencias'] = json_encode($paths);
+            $data['evidencias'] = $request->file('evidencias')->store('evidencias', 'public');
         }
 
         // Crear historia clínica con datos validados

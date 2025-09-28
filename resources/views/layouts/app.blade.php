@@ -44,7 +44,7 @@
 
     <!-- Footer -->
     <footer class="bg-gray-100 text-center py-4 mt-8 shadow-inner">
-        <small class="text-gray-500">&copy; {{ date('Y') }} Mi Proyecto</small>
+        <small class="text-gray-500">&copy; {{ date('Y') }} Grupo Black</small>
     </footer>
 
     <!-- Feather icons -->

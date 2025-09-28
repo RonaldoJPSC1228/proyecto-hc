@@ -21,12 +21,12 @@ class HistoriasStoreRequest extends FormRequest
             'paciente_id' => 'required|exists:pacientes,id',
             'motivo_consulta' => 'required|string|max:1000',
             'antecedentes' => 'nullable|string|max:2000',
-            'fecha' => 'required',
+            'fecha' => 'required|date',
             'sintoma_1' => 'required',
             'sintoma_2' => 'nullable',
             'sintoma_3' => 'nullable',
             'diagnostico_presuntivo' => 'required|string|max:2000',
-            'evidencias' => 'nullable',
+            'evidencias' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048',
         ];
     }
 }

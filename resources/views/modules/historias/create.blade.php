@@ -51,7 +51,8 @@
                 <label for="motivo_consulta" class="block text-sm font-semibold text-gray-700 mb-2">
                     Motivo de Consulta <span class="text-red-600">*</span>
                 </label>
-                <div class="flex rounded-lg border border-gray-300 shadow-sm focus-within:ring-2 focus-within:ring-blue-600 overflow-hidden">
+                <div
+                    class="flex rounded-lg border border-gray-300 shadow-sm focus-within:ring-2 focus-within:ring-blue-600 overflow-hidden">
                     <textarea id="motivo_consulta" name="motivo_consulta" rows="4" required
                         class="flex-grow p-4 resize-y text-gray-900 placeholder-gray-400 focus:outline-none">{{ old('motivo_consulta') }}</textarea>
                     <button type="button" data-target="motivo_consulta"
@@ -64,7 +65,8 @@
             {{-- Antecedentes --}}
             <div>
                 <label for="antecedentes" class="block text-sm font-semibold text-gray-700 mb-2">Antecedentes</label>
-                <div class="flex rounded-lg border border-gray-300 shadow-sm focus-within:ring-2 focus-within:ring-blue-600 overflow-hidden">
+                <div
+                    class="flex rounded-lg border border-gray-300 shadow-sm focus-within:ring-2 focus-within:ring-blue-600 overflow-hidden">
                     <textarea id="antecedentes" name="antecedentes" rows="4"
                         class="flex-grow p-4 resize-y text-gray-900 placeholder-gray-400 focus:outline-none">{{ old('antecedentes') }}</textarea>
                     <button type="button" data-target="antecedentes"
@@ -84,12 +86,14 @@
                         class="w-full rounded-lg border border-gray-300 shadow-sm focus:ring-2 focus:ring-blue-600 text-gray-900 resize-y">{{ old('sintomas_1') }}</textarea>
                 </div>
                 <div>
-                    <label for="sintomas_2" class="block text-sm font-semibold text-gray-700 mb-2">Síntoma 2 (Opcional)</label>
+                    <label for="sintomas_2" class="block text-sm font-semibold text-gray-700 mb-2">Síntoma 2
+                        (Opcional)</label>
                     <textarea id="sintomas_2" name="sintoma_2" rows="2"
                         class="w-full rounded-lg border border-gray-300 shadow-sm focus:ring-2 focus:ring-blue-600 text-gray-900 resize-y">{{ old('sintomas_2') }}</textarea>
                 </div>
                 <div>
-                    <label for="sintomas_3" class="block text-sm font-semibold text-gray-700 mb-2">Síntoma 3 (Opcional)</label>
+                    <label for="sintomas_3" class="block text-sm font-semibold text-gray-700 mb-2">Síntoma 3
+                        (Opcional)</label>
                     <textarea id="sintomas_3" name="sintoma_3" rows="2"
                         class="w-full rounded-lg border border-gray-300 shadow-sm focus:ring-2 focus:ring-blue-600 text-gray-900 resize-y">{{ old('sintomas_3') }}</textarea>
                 </div>
@@ -97,8 +101,10 @@
 
             {{-- Diagnóstico Presuntivo --}}
             <div>
-                <label for="diagnostico_presuntivo" class="block text-sm font-semibold text-gray-700 mb-2">Diagnóstico Presuntivo</label>
-                <div class="flex rounded-lg border border-gray-300 shadow-sm focus-within:ring-2 focus-within:ring-blue-600 overflow-hidden">
+                <label for="diagnostico_presuntivo" class="block text-sm font-semibold text-gray-700 mb-2">Diagnóstico
+                    Presuntivo</label>
+                <div
+                    class="flex rounded-lg border border-gray-300 shadow-sm focus-within:ring-2 focus-within:ring-blue-600 overflow-hidden">
                     <textarea id="diagnostico_presuntivo" name="diagnostico_presuntivo" rows="4"
                         class="flex-grow p-4 resize-y text-gray-900 placeholder-gray-400 focus:outline-none">{{ old('diagnostico_presuntivo') }}</textarea>
                     <button type="button" data-target="diagnostico_presuntivo"
@@ -111,9 +117,9 @@
             {{-- Evidencias --}}
             <div>
                 <label for="evidencias" class="block text-sm font-semibold text-gray-700 mb-2">Evidencias (Archivos)</label>
-                <input type="file" id="evidencias" name="evidencias[]" multiple accept="image/*,application/pdf"
+                <input type="file" id="evidencias" name="evidencias" accept="image/*,application/pdf"
                     class="w-full rounded-lg border border-gray-300 p-3 shadow-sm focus:ring-2 focus:ring-blue-600" />
-                <p class="text-xs mt-1 text-gray-500">Puedes subir imágenes, PDFs, etc.</p>
+                <p class="text-xs text-gray-500 mt-1">Puede subir imágenes o documentos PDF como evidencias.</p>
             </div>
 
             {{-- Botón Generar Diagnóstico --}}
@@ -148,120 +154,122 @@
 @endsection
 
 @push('js')
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-    const btnDictado = document.querySelectorAll('.btn-voice');
-    const status = document.createElement('div');
-    status.classList.add('text-gray-500', 'italic', 'mt-2', 'text-center');
-    document.querySelector('form').prepend(status);
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const btnDictado = document.querySelectorAll('.btn-voice');
+            const status = document.createElement('div');
+            status.classList.add('text-gray-500', 'italic', 'mt-2', 'text-center');
+            document.querySelector('form').prepend(status);
 
-    btnDictado.forEach(button => {
-        let recognition;
-        let listening = false;
+            btnDictado.forEach(button => {
+                let recognition;
+                let listening = false;
 
-        button.addEventListener('click', () => {
-            const targetId = button.getAttribute('data-target');
-            const campo = document.getElementById(targetId);
+                button.addEventListener('click', () => {
+                    const targetId = button.getAttribute('data-target');
+                    const campo = document.getElementById(targetId);
 
-            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-            if (!SpeechRecognition) {
-                status.textContent = 'Dictado no soportado en este navegador';
-                btn.disabled = true;
-                return;
-            }
-
-            if (!recognition) {
-                recognition = new SpeechRecognition();
-                recognition.lang = 'es-ES';
-                recognition.interimResults = true;
-                recognition.continuous = false;
-
-                recognition.onresult = (event) => {
-                    let finalTrans = '';
-                    let interimTrans = '';
-
-                    for (let i = event.resultIndex; i < event.results.length; i++) {
-                        if (event.results[i].isFinal) {
-                            finalTrans += event.results[i][0].transcript;
-                        } else {
-                            interimTrans += event.results[i][0].transcript;
-                        }
+                    const SpeechRecognition = window.SpeechRecognition || window
+                        .webkitSpeechRecognition;
+                    if (!SpeechRecognition) {
+                        status.textContent = 'Dictado no soportado en este navegador';
+                        btn.disabled = true;
+                        return;
                     }
 
-                    if (interimTrans) {
+                    if (!recognition) {
+                        recognition = new SpeechRecognition();
+                        recognition.lang = 'es-ES';
+                        recognition.interimResults = true;
+                        recognition.continuous = false;
+
+                        recognition.onresult = (event) => {
+                            let finalTrans = '';
+                            let interimTrans = '';
+
+                            for (let i = event.resultIndex; i < event.results.length; i++) {
+                                if (event.results[i].isFinal) {
+                                    finalTrans += event.results[i][0].transcript;
+                                } else {
+                                    interimTrans += event.results[i][0].transcript;
+                                }
+                            }
+
+                            if (interimTrans) {
+                                status.textContent = '';
+                            }
+                            if (finalTrans && campo) {
+                                campo.value += (campo.value ? ' ' : '') + finalTrans;
+                                status.textContent = '';
+                            }
+                        };
+
+                        recognition.onerror = (event) => {
+                            status.textContent = 'Error: ' + event.error;
+                            button.textContent = '🎤';
+                            listening = false;
+                        };
+
+                        recognition.onend = () => {
+                            button.textContent = '🎤';
+                            listening = false;
+                            status.textContent = '';
+                        };
+                    }
+
+                    if (!listening) {
+                        recognition.start();
+                        listening = true;
+                        button.textContent = '';
                         status.textContent = '';
+                    } else {
+                        recognition.stop();
+                        listening = false;
+                        button.textContent = '🎤';
                     }
-                    if (finalTrans && campo) {
-                        campo.value += (campo.value ? ' ' : '') + finalTrans;
-                        status.textContent = '';
-                    }
-                };
-
-                recognition.onerror = (event) => {
-                    status.textContent = 'Error: ' + event.error;
-                    button.textContent = '🎤';
-                    listening = false;
-                };
-
-                recognition.onend = () => {
-                    button.textContent = '🎤';
-                    listening = false;
-                    status.textContent = '';
-                };
-            }
-
-            if (!listening) {
-                recognition.start();
-                listening = true;
-                button.textContent = '';
-                status.textContent = '';
-            } else {
-                recognition.stop();
-                listening = false;
-                button.textContent = '🎤';
-            }
-        });
-    });
-
-    // Botón diagnóstico
-    const btnDiagnostico = document.getElementById('btn-diagnostico');
-    btnDiagnostico?.addEventListener('click', () => {
-        const data = {
-            _token: '{{ csrf_token() }}',
-            motivo: document.getElementById('motivo_consulta').value,
-            sintomas_1: document.getElementById('sintomas_1').value,
-            sintomas_2: document.getElementById('sintomas_2').value,
-            sintomas_3: document.getElementById('sintomas_3').value,
-        };
-
-        fetch('{{ route('diagnostico.sugerir') }}', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': data._token
-            },
-            body: JSON.stringify(data),
-        })
-        .then(resp => resp.json())
-        .then(response => {
-            document.getElementById('resultado-diagnostico').classList.remove('hidden');
-            document.getElementById('diagnostico-texto').textContent = response.diagnostico || '';
-            const lista = document.getElementById('justificacion-lista');
-            lista.innerHTML = '';
-            if (Array.isArray(response.justificacion)) {
-                response.justificacion.forEach(j => {
-                    const li = document.createElement('li');
-                    li.textContent = j;
-                    lista.appendChild(li);
                 });
-            } else if (response.justificacion) {
-                const li = document.createElement('li');
-                li.textContent = response.justificacion;
-                lista.appendChild(li);
-            }
-        })
-        .catch(() => alert('Error generando diagnóstico.'));
-    });
-});
-</script>
+            });
+
+            // Botón diagnóstico
+            const btnDiagnostico = document.getElementById('btn-diagnostico');
+            btnDiagnostico?.addEventListener('click', () => {
+                const data = {
+                    _token: '{{ csrf_token() }}',
+                    motivo: document.getElementById('motivo_consulta').value,
+                    sintomas_1: document.getElementById('sintomas_1').value,
+                    sintomas_2: document.getElementById('sintomas_2').value,
+                    sintomas_3: document.getElementById('sintomas_3').value,
+                };
+
+                fetch('{{ route('diagnostico.sugerir') }}', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': data._token
+                        },
+                        body: JSON.stringify(data),
+                    })
+                    .then(resp => resp.json())
+                    .then(response => {
+                        document.getElementById('resultado-diagnostico').classList.remove('hidden');
+                        document.getElementById('diagnostico-texto').textContent = response
+                            .diagnostico || '';
+                        const lista = document.getElementById('justificacion-lista');
+                        lista.innerHTML = '';
+                        if (Array.isArray(response.justificacion)) {
+                            response.justificacion.forEach(j => {
+                                const li = document.createElement('li');
+                                li.textContent = j;
+                                lista.appendChild(li);
+                            });
+                        } else if (response.justificacion) {
+                            const li = document.createElement('li');
+                            li.textContent = response.justificacion;
+                            lista.appendChild(li);
+                        }
+                    })
+                    .catch(() => alert('Error generando diagnóstico.'));
+            });
+        });
+    </script>
 @endpush
